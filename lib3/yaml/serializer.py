@@ -5,15 +5,18 @@ from .error import YAMLError
 from .events import *
 from .nodes import *
 
+
 class SerializerError(YAMLError):
     pass
+
 
 class Serializer:
 
     ANCHOR_TEMPLATE = 'id%03d'
 
     def __init__(self, encoding=None,
-            explicit_start=None, explicit_end=None, version=None, tags=None):
+                 explicit_start=None, explicit_end=None,
+                 version=None, tags=None):
         self.use_encoding = encoding
         self.use_explicit_start = explicit_start
         self.use_explicit_end = explicit_end
@@ -40,8 +43,8 @@ class Serializer:
             self.emit(StreamEndEvent())
             self.closed = True
 
-    #def __del__(self):
-    #    self.close()
+    # def __del__(self):
+    #     self.close()
 
     def serialize(self, node):
         if self.closed is None:
@@ -92,7 +95,7 @@ class Serializer:
                 implicit = (node.tag
                             == self.resolve(SequenceNode, node.value, True))
                 self.emit(SequenceStartEvent(alias, node.tag, implicit,
-                    flow_style=node.flow_style))
+                          flow_style=node.flow_style))
                 index = 0
                 for item in node.value:
                     self.serialize_node(item, node, index)
@@ -102,10 +105,9 @@ class Serializer:
                 implicit = (node.tag
                             == self.resolve(MappingNode, node.value, True))
                 self.emit(MappingStartEvent(alias, node.tag, implicit,
-                    flow_style=node.flow_style))
+                          flow_style=node.flow_style))
                 for key, value in node.value:
                     self.serialize_node(key, node, None)
                     self.serialize_node(value, node, key)
                 self.emit(MappingEndEvent())
             self.ascend_resolver()
-

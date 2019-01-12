@@ -6,8 +6,10 @@ from .nodes import *
 
 import re
 
+
 class ResolverError(YAMLError):
     pass
+
 
 class BaseResolver:
 
@@ -97,7 +99,7 @@ class BaseResolver:
             depth = len(self.resolver_prefix_paths)
             for path, kind in self.resolver_prefix_paths[-1]:
                 if self.check_resolver_prefix(depth, path, kind,
-                        current_node, current_index):
+                                              current_node, current_index):
                     if len(path) > depth:
                         prefix_paths.append((path, kind))
                     else:
@@ -118,7 +120,7 @@ class BaseResolver:
         self.resolver_prefix_paths.pop()
 
     def check_resolver_prefix(self, depth, path, kind,
-            current_node, current_index):
+                              current_node, current_index):
         node_check, index_check = path[depth-1]
         if isinstance(node_check, str):
             if current_node.tag != node_check:
@@ -164,8 +166,10 @@ class BaseResolver:
         elif kind is MappingNode:
             return self.DEFAULT_MAPPING_TAG
 
+
 class Resolver(BaseResolver):
     pass
+
 
 Resolver.add_implicit_resolver(
         'tag:yaml.org,2002:bool',
@@ -224,4 +228,3 @@ Resolver.add_implicit_resolver(
         'tag:yaml.org,2002:yaml',
         re.compile(r'^(?:!|&|\*)$'),
         list('!&*'))
-

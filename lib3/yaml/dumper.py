@@ -6,6 +6,7 @@ from .serializer import *
 from .representer import *
 from .resolver import *
 
+
 class BaseDumper(Emitter, Serializer, BaseRepresenter, BaseResolver):
 
     def __init__(self, stream,
@@ -23,6 +24,7 @@ class BaseDumper(Emitter, Serializer, BaseRepresenter, BaseResolver):
         Representer.__init__(self, default_style=default_style,
                 default_flow_style=default_flow_style, sort_keys=sort_keys)
         Resolver.__init__(self)
+
 
 class SafeDumper(Emitter, Serializer, SafeRepresenter, Resolver):
 
@@ -42,6 +44,7 @@ class SafeDumper(Emitter, Serializer, SafeRepresenter, Resolver):
                 default_flow_style=default_flow_style, sort_keys=sort_keys)
         Resolver.__init__(self)
 
+
 class Dumper(Emitter, Serializer, Representer, Resolver):
 
     def __init__(self, stream,
@@ -59,4 +62,3 @@ class Dumper(Emitter, Serializer, Representer, Resolver):
         Representer.__init__(self, default_style=default_style,
                 default_flow_style=default_flow_style, sort_keys=sort_keys)
         Resolver.__init__(self)
-

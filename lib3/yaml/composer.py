@@ -5,8 +5,10 @@ from .error import MarkedYAMLError
 from .events import *
 from .nodes import *
 
+
 class ComposerError(MarkedYAMLError):
     pass
+
 
 class Composer:
 
@@ -65,16 +67,18 @@ class Composer:
             event = self.get_event()
             anchor = event.anchor
             if anchor not in self.anchors:
-                raise ComposerError(None, None, "found undefined alias %r"
-                        % anchor, event.start_mark)
+                raise ComposerError(
+                    None, None, "found undefined alias %r"
+                    % anchor, event.start_mark)
             return self.anchors[anchor]
         event = self.peek_event()
         anchor = event.anchor
         if anchor is not None:
             if anchor in self.anchors:
-                raise ComposerError("found duplicate anchor %r; first occurrence"
-                        % anchor, self.anchors[anchor].start_mark,
-                        "second occurrence", event.start_mark)
+                raise ComposerError(
+                    "found duplicate anchor %r; first occurrence"
+                    % anchor, self.anchors[anchor].start_mark,
+                    "second occurrence", event.start_mark)
         self.descend_resolver(parent, index)
         if self.check_event(ScalarEvent):
             node = self.compose_scalar_node(anchor)
@@ -125,15 +129,14 @@ class Composer:
         if anchor is not None:
             self.anchors[anchor] = node
         while not self.check_event(MappingEndEvent):
-            #key_event = self.peek_event()
+            # key_event = self.peek_event()
             item_key = self.compose_node(node, None)
-            #if item_key in node.value:
+            # if item_key in node.value:
             #    raise ComposerError("while composing a mapping", start_event.start_mark,
             #            "found duplicate key", key_event.start_mark)
             item_value = self.compose_node(node, item_key)
-            #node.value[item_key] = item_value
+            # node.value[item_key] = item_value
             node.value.append((item_key, item_value))
         end_event = self.get_event()
         node.end_mark = end_event.end_mark
         return node
-

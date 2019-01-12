@@ -1,6 +1,7 @@
 
 __all__ = ['Mark', 'YAMLError', 'MarkedYAMLError']
 
+
 class Mark:
 
     def __init__(self, name, index, line, column, buffer, pointer):
@@ -42,8 +43,10 @@ class Mark:
             where += ":\n"+snippet
         return where
 
+
 class YAMLError(Exception):
     pass
+
 
 class MarkedYAMLError(YAMLError):
 
@@ -61,9 +64,9 @@ class MarkedYAMLError(YAMLError):
             lines.append(self.context)
         if self.context_mark is not None  \
             and (self.problem is None or self.problem_mark is None
-                    or self.context_mark.name != self.problem_mark.name
-                    or self.context_mark.line != self.problem_mark.line
-                    or self.context_mark.column != self.problem_mark.column):
+                 or self.context_mark.name != self.problem_mark.name
+                 or self.context_mark.line != self.problem_mark.line
+                 or self.context_mark.column != self.problem_mark.column):
             lines.append(str(self.context_mark))
         if self.problem is not None:
             lines.append(self.problem)

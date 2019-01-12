@@ -11,12 +11,14 @@ from .representer import *
 
 from .resolver import *
 
+
 class CBaseLoader(CParser, BaseConstructor, BaseResolver):
 
     def __init__(self, stream):
         CParser.__init__(self, stream)
         BaseConstructor.__init__(self)
         BaseResolver.__init__(self)
+
 
 class CSafeLoader(CParser, SafeConstructor, Resolver):
 
@@ -25,12 +27,14 @@ class CSafeLoader(CParser, SafeConstructor, Resolver):
         SafeConstructor.__init__(self)
         Resolver.__init__(self)
 
+
 class CLoader(CParser, Constructor, Resolver):
 
     def __init__(self, stream):
         CParser.__init__(self, stream)
         Constructor.__init__(self)
         Resolver.__init__(self)
+
 
 class CBaseDumper(CEmitter, BaseRepresenter, BaseResolver):
 
@@ -49,6 +53,7 @@ class CBaseDumper(CEmitter, BaseRepresenter, BaseResolver):
                 default_flow_style=default_flow_style, sort_keys=sort_keys)
         Resolver.__init__(self)
 
+
 class CSafeDumper(CEmitter, SafeRepresenter, Resolver):
 
     def __init__(self, stream,
@@ -66,6 +71,7 @@ class CSafeDumper(CEmitter, SafeRepresenter, Resolver):
                 default_flow_style=default_flow_style, sort_keys=sort_keys)
         Resolver.__init__(self)
 
+
 class CDumper(CEmitter, Serializer, Representer, Resolver):
 
     def __init__(self, stream,
@@ -82,4 +88,3 @@ class CDumper(CEmitter, Serializer, Representer, Resolver):
         Representer.__init__(self, default_style=default_style,
                 default_flow_style=default_flow_style, sort_keys=sort_keys)
         Resolver.__init__(self)
-
